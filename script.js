@@ -1,4 +1,4 @@
-// THEME TOGGLE
+// ===== THEME TOGGLE =====
 const themeToggleBtn = document.getElementById("theme-toggle");
 
 if (themeToggleBtn) {
@@ -7,7 +7,8 @@ if (themeToggleBtn) {
     const current = body.dataset.theme || "dark";
     const next = current === "dark" ? "light" : "dark";
     body.dataset.theme = next;
-    themeToggleBtn.textContent = next === "dark" ? "☀️ Light mode" : "🌙 Dark mode";
+    themeToggleBtn.textContent =
+      next === "dark" ? "☀️ Light mode" : "🌙 Dark mode";
   });
 }
 
@@ -22,69 +23,37 @@ function v(id) {
 
 if (ugcBtn) {
   ugcBtn.addEventListener("click", () => {
-    const niche = v("niche") || "[isi niche/topik]";
-    const kategori = v("kategori") || "[storyselling / review / edukasi / dll]";
-    const tujuan = v("tujuan") || "[jualan / naikin trust / followers]";
-    const audience = v("audience") || "[target audiens]";
-    const masalah = v("masalah") || "[masalah / keinginan audiens]";
-    const pesan = v("pesan") || "[pesan inti 1 kalimat]";
-    const durasi = v("durasi") || "[durasi & platform]";
-    const visual = v("visual") || "[talking head / B-roll / dll]";
-    const tone = v("tone") || "[santai WA / elegan / bunda-friendly / dll]";
-    const cta = v("cta") || "[cek keranjang / follow / save / share]";
-
     const prompt = `
-Kamu adalah creative director UGC + scriptwriter untuk market Indonesia.
+Kamu adalah creative director UGC + scriptwriter market Indonesia.
 
-GAYA:
-- Bahasa santai kayak chat WA, tapi tetap jelas dan sopan.
-- Jawaban ringkas, gampang dibaca, nggak bertele-tele.
+GAYA BAHASA:
+- Santai kayak chat WA, jelas, tidak bertele-tele.
+- Fokus ke relevansi dan storytelling.
 
-BRIEF KONTEN:
-- Niche/topik: ${niche}
-- Kategori konten: ${kategori}
-- Tujuan konten: ${tujuan}
-- Target audiens: ${audience}
-- Masalah/keinginan audiens: ${masalah}
-- Pesan inti: ${pesan}
-- Platform + durasi: ${durasi}
-- Format visual: ${visual}
-- Tone bahasa: ${tone}
-- Jenis CTA: ${cta}
+BRIEF:
+- Niche/topik: ${v("niche") || "[isi niche/topik]"}
+- Kategori konten: ${v("kategori") || "[storyselling / review / edukasi]"}
+- Tujuan konten: ${v("tujuan") || "[jualan / naikin trust / followers]"}
+- Target audiens: ${v("audience") || "[target audiens]"}
+- Masalah audiens: ${v("masalah") || "[tulis 1–3 poin]"}
+- Pesan inti konten: ${v("pesan") || "[pesan inti]"}
+- Durasi + Platform: ${v("durasi") || "[7s TikTok / 15s Reels / Shopee]"}
+- Format visual: ${v("visual") || "[talking head / B-roll]"}
+- Tone: ${v("tone") || "[santai WA / elegan]"}
+- CTA: ${v("cta") || "[cek keranjang / follow]"}
 
 TUGAS:
-Buat paket konten UGC lengkap, dengan struktur berikut:
-
+Buat paket konten lengkap dengan struktur:
 1) IDE KONTEN
-- 1–2 kalimat, jelasin angle utama video.
+2) 3 HOOK kuat (maks 1 kalimat)
+3) SCRIPT VIDEO (per baris pendek)
+   - STORYSELLING: Masalah → Penemuan → Transformasi → CTA
+   - REVIEW PRODUK: Before → Coba → After → CTA
+4) BREAKDOWN SHOT (min 4 shot urut)
+5) CAPTION x2 (pendek & medium)
+6) PROMPT untuk AI video/image (teknis visual)
 
-2) 3 HOOK (0–3 detik)
-- 3 pilihan hook yang kuat.
-- Maks 1 kalimat per hook.
-- Fokus ke masalah/keinginan audiens.
-
-3) SCRIPT VIDEO
-- Ditulis per baris, kalimat pendek-pendek.
-- Sesuaikan dengan kategori:
-  - STORYSELLING: Masalah → Penemuan → Transformasi → Undangan (CTA).
-  - REVIEW: Sebelum → Coba produk → Setelah → CTA.
-  - EDUKASI: Hook → Problem → Tips poin-poin → CTA.
-  - SOFT/HARD SELLING: Trigger emosi → solusi → bukti singkat → CTA.
-
-4) BREAKDOWN SHOT / VISUAL
-- Minimal 4 shot urut.
-- Format: "Shot 1: [deskripsi] – [jenis kamera / angle]".
-
-5) CAPTION + CTA
-- 1 caption pendek (≤ 15 kata).
-- 1 caption medium (2–3 kalimat, tetap simple).
-- Sesuaikan dengan CTA di brief.
-
-6) PROMPT AI (opsional)
-- 1 prompt deskriptif untuk generator video/image AI
-  (mood, lighting, gaya kamera, karakter).
-
-Jawab semua dalam bahasa Indonesia, rapih pakai heading & poin.
+Jawab rapi, bahasa Indonesia, format markdown.
 `.trim();
 
     ugcOutput.value = prompt;
@@ -93,55 +62,52 @@ Jawab semua dalam bahasa Indonesia, rapih pakai heading & poin.
 
 if (ugcCopyBtn) {
   ugcCopyBtn.addEventListener("click", () => {
-    if (!ugcOutput.value) return;
     navigator.clipboard.writeText(ugcOutput.value).then(() => {
-      ugcCopyBtn.textContent = "✅ Tersalin";
+      ugcCopyBtn.textContent = "✔ Tersalin";
       setTimeout(() => (ugcCopyBtn.textContent = "Copy UGC Prompt"), 1500);
     });
   });
 }
 
-// ===== IMAGE GENERATOR GEMINI =====
+// ===== IMAGE GENERATOR FLUX AI =====
 const imageBtn = document.getElementById("image-btn");
 const imagePromptInput = document.getElementById("image-prompt");
-const aspectSelect = document.getElementById("aspect");
 const imageStatus = document.getElementById("image-status");
 const imageResult = document.getElementById("image-result");
 
 if (imageBtn) {
   imageBtn.addEventListener("click", async () => {
     const prompt = imagePromptInput.value.trim();
-    const aspect = aspectSelect.value;
 
     if (!prompt) {
-      imageStatus.textContent = "Isi dulu prompt gambarnya 🙏";
+      imageStatus.textContent = "⚠️ Isi prompt gambarnya dulu ya";
       return;
     }
 
-    imageStatus.textContent = "Lagi generate gambar dari Gemini...";
+    imageStatus.textContent = "⏳ Lagi generate gambar...";
     imageResult.style.display = "none";
 
     try {
-      const res = await fetch("/api/generate-image", {
+      const res = await fetch("/api/generate-flux", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, aspectRatio: aspect }),
+        body: JSON.stringify({ prompt }),
       });
 
       const data = await res.json();
-      if (!res.ok) {
+
+      if (!res.ok || !data.image) {
         console.error(data);
-        imageStatus.textContent = "Gagal generate gambar 😥";
+        imageStatus.textContent = "❌ Gagal generate gambar";
         return;
       }
 
-      const src = `data:${data.mimeType};base64,${data.image}`;
-      imageResult.src = src;
+      imageResult.src = data.image;
       imageResult.style.display = "block";
-      imageStatus.textContent = "Berhasil! 🎨";
+      imageStatus.textContent = "✨ Berhasil! gambar siap";
     } catch (err) {
       console.error(err);
-      imageStatus.textContent = "Error koneksi ke server.";
+      imageStatus.textContent = "❌ Server error / koneksi gagal";
     }
   });
 }
