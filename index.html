@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Raykal UGC Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-theme="dark">
+    <div class="app">
+      <header class="top-bar">
+        <div>
+          <h1>Raykal UGC Studio</h1>
+          <p class="subtitle">
+            Generator prompt & gambar buat kerjaan UGC / kreator AI kamu.
+          </p>
+        </div>
+        <button id="theme-toggle" class="btn small secondary">☀️ Light mode</button>
+      </header>
+
+      <!-- KARTU 1: UGC PROMPT GENERATOR -->
+      <section class="card">
+        <h2>UGC Prompt Generator</h2>
+        <p class="subtitle">
+          Isi singkat aja → klik generate → copy ke Gemini / Grok / ChatGPT.
+        </p>
+
+        <div class="grid">
+          <label>
+            Niche / Topik
+            <input id="niche" type="text" placeholder="sandal, fashion anak, AI tools, dll" />
+          </label>
+
+          <label>
+            Kategori Konten
+            <select id="kategori">
+              <option value="">Pilih...</option>
+              <option value="storyselling">Storyselling</option>
+              <option value="review">Review produk</option>
+              <option value="edukasi">Edukasi</option>
+              <option value="soft selling">Soft selling</option>
+              <option value="hard selling">Hard selling</option>
+            </select>
+          </label>
+
+          <label>
+            Tujuan Konten
+            <input id="tujuan" type="text" placeholder="jualan / naikin trust / followers" />
+          </label>
+
+          <label>
+            Target Audiens
+            <input id="audience" type="text" placeholder="bunda, cewek kuliah, anak SD, dll" />
+          </label>
+
+          <label class="full">
+            Masalah / Keinginan Audiens
+            <textarea id="masalah" rows="2" placeholder="tulis 1–3 poin, pisah koma"></textarea>
+          </label>
+
+          <label class="full">
+            Pesan Inti Konten
+            <input id="pesan" type="text" placeholder="1 kalimat utama yang mau diingat" />
+          </label>
+
+          <label>
+            Platform + Durasi
+            <input id="durasi" type="text" placeholder="TikTok 7s / Reels 15s / Shopee 30s" />
+          </label>
+
+          <label>
+            Format Visual
+            <input id="visual" type="text" placeholder="talking head / B-roll / screen record" />
+          </label>
+
+          <label>
+            Tone Bahasa
+            <input id="tone" type="text" placeholder="santai WA / elegan / bunda-friendly" />
+          </label>
+
+          <label>
+            CTA
+            <input id="cta" type="text" placeholder="cek keranjang / follow / save post" />
+          </label>
+        </div>
+
+        <button id="ugc-btn" class="btn">Generate UGC Prompt</button>
+
+        <h3>Hasil Prompt</h3>
+        <textarea id="ugc-output" rows="14" readonly></textarea>
+        <button id="ugc-copy" class="btn secondary">Copy UGC Prompt</button>
+      </section>
+
+      <!-- KARTU 2: IMAGE GENERATOR GEMINI -->
+      <section class="card">
+        <h2>Generator Gambar (Gemini)</h2>
+        <p class="subtitle">
+          Tulis deskripsi visual → klik generate → gambar tampil di bawah.
+        </p>
+
+        <label class="full">
+          Prompt gambar
+          <input
+            id="image-prompt"
+            type="text"
+            placeholder="contoh: sandal wanita beige di studio aesthetic, lighting soft, close up"
+          />
+        </label>
+
+        <div class="row">
+          <select id="aspect">
+            <option value="1:1">1:1 (square)</option>
+            <option value="16:9">16:9 (landscape)</option>
+            <option value="9:16">9:16 (portrait)</option>
+          </select>
+
+          <button id="image-btn" class="btn">Generate Image</button>
+        </div>
+
+        <p id="image-status" class="subtitle"></p>
+
+        <div id="image-preview-wrap">
+          <img
+            id="image-result"
+            alt="Hasil gambar Gemini"
+            style="max-width: 100%; border-radius: 14px; margin-top: 10px; display: none"
+          />
+        </div>
+      </section>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
